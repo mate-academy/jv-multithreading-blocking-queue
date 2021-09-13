@@ -15,7 +15,9 @@ public class BlockingQueueTest {
 
         producer.start();
         Thread.sleep(500);
-        Assert.assertNotEquals(Thread.State.WAITING, producer.getState());
+        Assert.assertNotEquals("Your `put()` method should not put the producer thread "
+                + "in the WAITING state if there is still space in the queue",
+                Thread.State.WAITING, producer.getState());
     }
 
     @Test
@@ -26,10 +28,14 @@ public class BlockingQueueTest {
 
         producer.start();
         Thread.sleep(1000);
-        Assert.assertEquals(Thread.State.WAITING, producer.getState());
+        Assert.assertEquals("Your `put()` method should put the producer thread "
+                + "in the WAITING state if there is no space in the queue",
+                Thread.State.WAITING, producer.getState());
         consumer.start();
         Thread.sleep(100);
-        Assert.assertNotEquals(Thread.State.WAITING, producer.getState());
+        Assert.assertNotEquals("Your producer thread should continue working "
+                + "if some space appeared in the queue",
+                Thread.State.WAITING, producer.getState());
     }
 
     @Test
@@ -37,7 +43,7 @@ public class BlockingQueueTest {
         blockingQueue = new BlockingQueue<>(50);
         Runnable testConsumer = () -> {
             try {
-                System.out.println("Took value " + blockingQueue.take());
+                blockingQueue.take();
             } catch (InterruptedException e) {
                 throw new RuntimeException("Consumer was interrupted!", e);
             }
@@ -45,7 +51,9 @@ public class BlockingQueueTest {
         Thread consumer = new Thread(testConsumer);
         consumer.start();
         Thread.sleep(100);
-        Assert.assertEquals(Thread.State.WAITING, consumer.getState());
+        Assert.assertEquals("Your `take()` method should put the consumer thread "
+                + "in the WAITING state if the queue is empty",
+                Thread.State.WAITING, consumer.getState());
         Thread producer = new Thread(new Producer(blockingQueue));
         producer.start();
         consumer.join();
@@ -56,9 +64,11 @@ public class BlockingQueueTest {
         blockingQueue = new BlockingQueue<>(5);
         Thread producer = new Thread(new Producer(blockingQueue));
 
-        Assert.assertTrue(blockingQueue.isEmpty());
+        Assert.assertTrue("Your `isEmpty()` method should return `true`"
+                + " for the initially empty queue", blockingQueue.isEmpty());
         producer.start();
         Thread.sleep(50);
-        Assert.assertFalse(blockingQueue.isEmpty());
+        Assert.assertFalse("Your `isEmpty()` method should return `false`"
+                + " when the queue contains elements", blockingQueue.isEmpty());
     }
 }
