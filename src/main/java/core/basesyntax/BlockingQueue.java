@@ -23,8 +23,9 @@ public class BlockingQueue<T> {
         while (queue.isEmpty()) {
             wait();
         }
+        T pollElement = queue.poll();
         notify();
-        return queue.poll();
+        return pollElement;
     }
 
     public synchronized boolean isEmpty() {
