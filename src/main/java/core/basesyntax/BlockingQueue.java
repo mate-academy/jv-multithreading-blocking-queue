@@ -15,8 +15,8 @@ public class BlockingQueue<T> {
         while (queue.size() == capacity) {
             wait();
         }
-        notify();
         queue.add(element);
+        notify();
     }
 
     public synchronized T take() throws InterruptedException {
