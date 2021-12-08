@@ -31,9 +31,9 @@ public class BlockingQueue<T> {
                 throw new RuntimeException("Something went wrong", e);
             }
         }
-        queue.poll();
+        T result = queue.poll();
         notify();
-        return queue.peek();
+        return result;
     }
 
     public synchronized boolean isEmpty() {
