@@ -13,7 +13,7 @@ public class Consumer implements Runnable {
     public void run() {
         while (!blockingQueue.isEmpty()) {
             try {
-                System.out.println("Took value " + blockingQueue.take());
+                System.out.println("Took value: " + blockingQueue.take());
             } catch (InterruptedException e) {
                 throw new RuntimeException("Consumer was interrupted!", e);
             }
