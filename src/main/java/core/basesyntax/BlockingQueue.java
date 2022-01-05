@@ -26,17 +26,14 @@ public class BlockingQueue<T> {
     }
 
     public synchronized T take() throws InterruptedException {
-        while (queue.size() == 0) {
-            try {
-                System.out.println("TAKE - size = " + queue.size());
-                wait();
-            } catch (InterruptedException e) {
-                throw new RuntimeException("Something went wrong", e);
-            }
+        while (queue.isEmpty()) {
+            System.out.println("TAKE - size = " + queue.size());
+            wait();
         }
         System.out.println("TAKE - size = " + queue.size());
+        T poll = queue.poll();
         notify();
-        return queue.poll();
+        return poll;
     }
 
     public synchronized boolean isEmpty() {
