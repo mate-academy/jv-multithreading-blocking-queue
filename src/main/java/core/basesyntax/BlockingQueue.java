@@ -12,16 +12,31 @@ public class BlockingQueue<T> {
     }
 
     public synchronized void put(T element) throws InterruptedException {
-        // write your code here
+        queue.offer(element);
+        while (queue.size() == capacity) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException("Can't wait", e);
+            }
+        }
+        notify();
     }
 
     public synchronized T take() throws InterruptedException {
-        // write your code here
-        return null;
+        while (isEmpty()) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException("Can't wait", e);
+            }
+        }
+        T element = queue.poll();
+        notify();
+        return element;
     }
 
     public synchronized boolean isEmpty() {
-        // write your code here
-        return true;
+        return queue.isEmpty();
     }
 }
