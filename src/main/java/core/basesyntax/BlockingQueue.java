@@ -12,16 +12,32 @@ public class BlockingQueue<T> {
     }
 
     public synchronized void put(T element) throws InterruptedException {
-        // write your code here
+        while (queue.size() >= capacity) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException("Element couldn't be added to the collection "
+                        + "according to interrupted thread", e);
+            }
+        }
+        queue.add(element);
+        notify();
     }
 
     public synchronized T take() throws InterruptedException {
-        // write your code here
-        return null;
+        while (isEmpty()) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException("Element couldn't be taken to the collection "
+                        + "according to interrupted thread", e);
+            }
+        }
+        notify();
+        return queue.element();
     }
 
     public synchronized boolean isEmpty() {
-        // write your code here
-        return true;
+        return queue.isEmpty();
     }
 }
