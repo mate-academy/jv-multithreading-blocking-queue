@@ -12,7 +12,6 @@ public class BlockingQueue<T> {
     }
 
     public synchronized void put(T element) throws InterruptedException {
-        queue.offer(element);
         while (queue.size() == capacity) {
             try {
                 wait();
@@ -20,6 +19,7 @@ public class BlockingQueue<T> {
                 throw new RuntimeException("Can't wait", e);
             }
         }
+        queue.offer(element);
         notify();
     }
 
