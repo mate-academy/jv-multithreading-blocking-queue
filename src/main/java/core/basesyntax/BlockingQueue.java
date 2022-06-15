@@ -16,21 +16,18 @@ public class BlockingQueue<T> {
             wait();
         }
         queue.add(element);
+        notify();
     }
 
     public synchronized T take() throws InterruptedException {
-        while (isEmpty()) {
+        while (queue.size() == 0) {
             wait();
         }
-        T poll = queue.poll();
-        return poll;
+        notify();
+        return queue.poll();
     }
 
     public synchronized boolean isEmpty() {
-        boolean empty = queue.isEmpty();
-        if (empty) {
-            notify();
-        }
-        return empty;
+        return queue.isEmpty();
     }
 }
