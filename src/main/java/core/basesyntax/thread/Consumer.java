@@ -18,9 +18,10 @@ public class Consumer implements Runnable {
                 } catch (InterruptedException e) {
                     throw new RuntimeException("Consumer was interrupted!", e);
                 }
-            }
-            if (Thread.currentThread().isInterrupted() && blockingQueue.isEmpty()) {
+            } else if (Thread.currentThread().isInterrupted()) {
                 break;
+            } else {
+                Thread.yield();
             }
         }
     }
