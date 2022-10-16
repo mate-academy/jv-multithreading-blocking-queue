@@ -11,6 +11,7 @@ public class Consumer implements Runnable {
 
     @Override
     public void run() {
+        System.out.println(Thread.currentThread().getName() + " Consumer.started");
         while (!blockingQueue.isEmpty()) {
             try {
                 System.out.println("Took value " + blockingQueue.take());
@@ -18,5 +19,6 @@ public class Consumer implements Runnable {
                 throw new RuntimeException("Consumer was interrupted!", e);
             }
         }
+        System.out.println(Thread.currentThread().getName() + " Consumer.stopped");
     }
 }
