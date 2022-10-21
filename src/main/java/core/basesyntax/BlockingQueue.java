@@ -20,7 +20,7 @@ public class BlockingQueue<T> {
     }
 
     public synchronized T take() throws InterruptedException {
-        while (isEmpty()){
+        while (isEmpty()) {
             wait();
         }
         notify();
@@ -28,6 +28,6 @@ public class BlockingQueue<T> {
     }
 
     public synchronized boolean isEmpty() {
-       return queue.size() == 0;
+        return queue.size() == 0;
     }
 }
