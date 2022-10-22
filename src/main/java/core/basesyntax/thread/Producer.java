@@ -14,6 +14,7 @@ public class Producer implements Runnable {
         for (int i = 0; i < 50; i++) {
             try {
                 blockingQueue.put(i);
+                System.out.println("Put value " + i);
             } catch (InterruptedException e) {
                 throw new RuntimeException("Producer was interrupted!", e);
             }
