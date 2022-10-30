@@ -15,7 +15,7 @@ public class BlockingQueue<T> {
         while (queue.size() >= capacity) {
             wait();
         }
-        queue.offer(element);
+        queue.add(element);
         notify();
     }
 
