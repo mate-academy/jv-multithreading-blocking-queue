@@ -10,7 +10,7 @@ public class Producer implements Runnable {
     }
 
     @Override
-    public void run() {
+    public synchronized void run() {
         for (int i = 0; i < 50; i++) {
             try {
                 blockingQueue.put(i);
