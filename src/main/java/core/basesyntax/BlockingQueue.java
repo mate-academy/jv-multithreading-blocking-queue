@@ -16,6 +16,7 @@ public class BlockingQueue<T> {
             wait();
         }
         queue.add(element);
+        System.out.println(Thread.currentThread().getName() + " add " + element);
         if (isEmpty() || queue.size() != capacity) {
             notify();
         }
@@ -28,6 +29,7 @@ public class BlockingQueue<T> {
         if (queue.size() == capacity) {
             notify();
         }
+        System.out.println(Thread.currentThread().getName() + " remove " + queue.peek());
         return queue.poll();
     }
 
