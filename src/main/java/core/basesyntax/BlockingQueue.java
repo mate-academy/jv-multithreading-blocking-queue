@@ -18,8 +18,10 @@ public class BlockingQueue<T> {
             wait();
         }
         queue.offer(element);
-        flag = false;
-        notify();
+        if (queue.size() == capacity) {
+            flag = false;
+            notify();
+        }
     }
 
     public synchronized T take() throws InterruptedException {
@@ -27,8 +29,10 @@ public class BlockingQueue<T> {
         while (flag) {
             wait();
         }
-        flag = true;
-        notify();
+        if (queue.size() == 1) {
+            flag = true;
+            notify();
+        }
         return queue.poll();
     }
 
