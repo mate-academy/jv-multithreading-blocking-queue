@@ -32,7 +32,7 @@ public class BlockingQueue<T> {
             }
         }
         notify();
-        return queue.peek();
+        return queue.poll();
     }
 
     public synchronized boolean isEmpty() {
