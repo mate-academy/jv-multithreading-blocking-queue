@@ -18,13 +18,12 @@ public class BlockingQueue<T> {
                 wait();
             } catch (InterruptedException e) {
                 throw new RuntimeException("Something goes wrong " + e);
-            }}
-            capacity--;
+            }
+        }
+        capacity--;
 
-            notify();
-            queue.add(element);
-
-
+        notify();
+        queue.add(element);
     }
 
     public synchronized T take() throws InterruptedException {
