@@ -13,15 +13,32 @@ public class BlockingQueue<T> {
 
     public synchronized void put(T element) throws InterruptedException {
         // write your code here
+        while (queue.size() == capacity) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException("Something went wrong!", e);
+            }
+        }
+        notify();
+        queue.add(element);
     }
 
     public synchronized T take() throws InterruptedException {
         // write your code here
-        return null;
+        while (queue.size() == 0) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException("Something went wrong!", e);
+            }
+        }
+        notify();
+        return queue.poll();
     }
 
     public synchronized boolean isEmpty() {
         // write your code here
-        return true;
+        return queue.size() == 0;
     }
 }
