@@ -13,7 +13,7 @@ public class BlockingQueue<T> {
 
     public synchronized void put(T element) throws InterruptedException {
         // write your code here
-        while (queue.size() >= capacity) {
+        while (queue.size() == capacity) {
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -34,7 +34,7 @@ public class BlockingQueue<T> {
             }
         }
         notify();
-        return queue.peek();
+        return queue.poll();
     }
 
     public synchronized boolean isEmpty() {
