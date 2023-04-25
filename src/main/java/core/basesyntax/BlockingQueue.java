@@ -24,8 +24,15 @@ public class BlockingQueue<T> {
     }
 
     public synchronized T take() throws InterruptedException {
-        // write your code here
-        return null;
+        while (isEmpty()) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException("Something went wrong!");
+            }
+        }
+        notify();
+        return queue.poll();
     }
 
     public synchronized boolean isEmpty() {
