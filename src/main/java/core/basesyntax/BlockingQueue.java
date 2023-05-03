@@ -17,7 +17,7 @@ public class BlockingQueue<T> {
                 wait();
             } catch (InterruptedException e) {
                 throw new InterruptedException("Something wrong with putting element "
-                        + element + " in queue");
+                        + element + " in queue.");
             }
         }
         queue.add(element);
@@ -29,7 +29,7 @@ public class BlockingQueue<T> {
             try {
                 wait();
             } catch (InterruptedException e) {
-                throw new InterruptedException("Something wrong with taking from queue");
+                throw new InterruptedException("Something wrong with taking from queue.");
             }
         }
         notify();
