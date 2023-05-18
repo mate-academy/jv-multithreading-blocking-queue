@@ -2,7 +2,6 @@ package core.basesyntax;
 
 import java.util.LinkedList;
 import java.util.Queue;
-import javax.lang.model.element.UnknownElementException;
 
 public class BlockingQueue<T> {
     private Queue<T> queue = new LinkedList<>();
