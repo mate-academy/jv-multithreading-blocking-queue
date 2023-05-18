@@ -2,6 +2,7 @@ package core.basesyntax;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import javax.lang.model.element.UnknownElementException;
 
 public class BlockingQueue<T> {
     private Queue<T> queue = new LinkedList<>();
@@ -12,16 +13,30 @@ public class BlockingQueue<T> {
     }
 
     public synchronized void put(T element) throws InterruptedException {
-        // write your code here
+        while (queue.size() >= capacity) {
+            try {
+                wait();
+            } catch (Exception e) {
+                throw new RuntimeException("Something wrong!", e);
+            }
+        }
+        queue.offer(element);
+        notify();
     }
 
     public synchronized T take() throws InterruptedException {
-        // write your code here
-        return null;
+        while (isEmpty()) {
+            try {
+                wait();
+            } catch (Exception e) {
+                throw new RuntimeException("Something wrong!", e);
+            }
+        }
+        notify();
+        return queue.poll();
     }
 
     public synchronized boolean isEmpty() {
-        // write your code here
-        return true;
+        return queue.peek() == null;
     }
 }
