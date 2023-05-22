@@ -12,7 +12,7 @@ public class BlockingQueue<T> {
     }
 
     public synchronized void put(T element) throws InterruptedException {
-        while(this.capacity == queue.size()) {
+        while (this.capacity == queue.size()) {
             wait();
         }
         queue.add(element);
@@ -20,7 +20,7 @@ public class BlockingQueue<T> {
     }
 
     public synchronized T take() throws InterruptedException {
-        while(this.capacity > queue.size()) {
+        while (this.capacity > queue.size()) {
             wait();
         }
         T poll = queue.poll();
