@@ -4,24 +4,37 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class BlockingQueue<T> {
-    private Queue<T> queue = new LinkedList<>();
-    private int capacity;
+    private final Queue<T> queue = new LinkedList<>();
+    private final int capacity;
+    private volatile int size = 0;
 
     public BlockingQueue(int capacity) {
         this.capacity = capacity;
     }
 
     public synchronized void put(T element) throws InterruptedException {
-        // write your code here
+        while (size >= capacity) {
+            wait();
+        }
+
+        notify();
+
+        queue.add(element);
+        size++;
     }
 
     public synchronized T take() throws InterruptedException {
-        // write your code here
-        return null;
+        while (size == 0) {
+            wait();
+        }
+
+        notify();
+
+        size--;
+        return queue.remove();
     }
 
     public synchronized boolean isEmpty() {
-        // write your code here
-        return true;
+       return size == 0;
     }
 }
