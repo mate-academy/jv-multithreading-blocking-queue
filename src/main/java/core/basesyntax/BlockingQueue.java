@@ -32,6 +32,6 @@ public class BlockingQueue<T> {
     }
 
     public synchronized boolean isEmpty() {
-       return queue.size() == 0;
+        return queue.size() == 0;
     }
 }
