@@ -24,7 +24,7 @@ public class BlockingQueue<T> {
             wait();
         }
         notify();
-       return queue.poll();
+        return queue.poll();
     }
 
     public synchronized boolean isEmpty() {
