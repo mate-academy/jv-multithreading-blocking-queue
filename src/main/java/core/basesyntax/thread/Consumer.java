@@ -11,12 +11,10 @@ public class Consumer implements Runnable {
 
     @Override
     public void run() {
-        while (!blockingQueue.isEmpty()) {
-            try {
-                System.out.println("Took value " + blockingQueue.take());
-            } catch (InterruptedException e) {
-                throw new RuntimeException("Consumer was interrupted!", e);
-            }
+        try {
+            System.out.println("Took value " + blockingQueue.take());
+        } catch (InterruptedException e) {
+            throw new RuntimeException("Consumer was interrupted!", e);
         }
     }
 }
