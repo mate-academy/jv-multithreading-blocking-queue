@@ -25,10 +25,10 @@ public class BlockingQueue<T> {
         while (size <= 0) {
             wait();
         }
-        T poll = queue.poll();
+        T pollMe = queue.poll();
         size--;
         notify();
-        return poll;
+        return pollMe;
     }
 
     public synchronized boolean isEmpty() {
