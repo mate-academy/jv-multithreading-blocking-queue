@@ -15,14 +15,15 @@ public class BlockingQueue<T> {
         while (queue.size() == capacity) {
             wait();
         }
-        queue.add(element);
         notifyAll();
+        queue.add(element);
     }
 
     public synchronized T take() throws InterruptedException {
         while (queue.isEmpty()) {
-            wait(2000);
+            wait();
         }
+        notifyAll();
         return queue.poll();
     }
 
