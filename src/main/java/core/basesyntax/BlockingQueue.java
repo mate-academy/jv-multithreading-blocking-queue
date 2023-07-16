@@ -15,7 +15,7 @@ public class BlockingQueue<T> {
         while (queue.size() == capacity) {
             wait();
         }
-        notifyAll();
+        notify();
         queue.add(element);
     }
 
@@ -23,7 +23,7 @@ public class BlockingQueue<T> {
         while (queue.isEmpty()) {
             wait();
         }
-        notifyAll();
+        notify();
         return queue.poll();
     }
 
