@@ -13,16 +13,15 @@ public class BlockingQueue<T> {
 
     public synchronized void put(T element) throws InterruptedException {
         while (queue.size() == capacity) {
-            wait();
         }
         queue.add(element);
-        notifyAll();
     }
 
     public synchronized T take() throws InterruptedException {
         while (queue.isEmpty()) {
-            wait(2000);
+            wait();
         }
+        notifyAll();
         return queue.poll();
     }
 
