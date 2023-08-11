@@ -20,7 +20,6 @@ public class BlockingQueue<T> {
                         + "element into the queue.", exception);
             }
         }
-        System.out.println("Add an element to this queue");
         queue.add(element);
         notify();
     }
@@ -34,7 +33,6 @@ public class BlockingQueue<T> {
                         + " to be available for taking.", exception);
             }
         }
-        System.out.println("Take an element from this queue");
         T item = queue.poll();
         notify();
         return item;
