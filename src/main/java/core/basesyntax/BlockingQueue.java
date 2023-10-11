@@ -21,7 +21,7 @@ public class BlockingQueue<T> {
 
     public synchronized T take() throws InterruptedException {
         while (queue.isEmpty()) {
-            wait(); // Wait if the queue is empty
+            wait();
         }
         T element = queue.poll();
         notifyAll();
