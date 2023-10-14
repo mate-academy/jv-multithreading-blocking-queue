@@ -6,22 +6,37 @@ import java.util.Queue;
 public class BlockingQueue<T> {
     private Queue<T> queue = new LinkedList<>();
     private int capacity;
+    private int size;
 
     public BlockingQueue(int capacity) {
         this.capacity = capacity;
     }
 
     public synchronized void put(T element) throws InterruptedException {
-        // write your code here
+        boolean cond = true;
+        while (cond) {
+            if (capacity > queue.size()) {
+                queue.offer(element);
+                cond = false;
+                notify();
+            } else {
+                wait();
+            }
+        }
     }
 
     public synchronized T take() throws InterruptedException {
-        // write your code here
-        return null;
+        while (true) {
+            if (queue.isEmpty()) {
+                wait();
+            } else {
+                notify();
+                return queue.poll();
+            }
+        }
     }
 
     public synchronized boolean isEmpty() {
-        // write your code here
-        return true;
+        return queue.size() == 0;
     }
 }
