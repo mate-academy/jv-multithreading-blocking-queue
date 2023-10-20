@@ -3,6 +3,7 @@ package core.basesyntax.thread;
 import core.basesyntax.BlockingQueue;
 
 public class Producer implements Runnable {
+
     private BlockingQueue<Integer> blockingQueue;
 
     public Producer(BlockingQueue<Integer> blockingQueue) {
