@@ -19,6 +19,7 @@ public class BlockingQueue<T> {
                 throw new RuntimeException("Something wen wrong!", e);
             }
         }
+        this.notify();
         queue.add(element);
     }
 
@@ -30,10 +31,14 @@ public class BlockingQueue<T> {
                 throw new RuntimeException("Something wen wrong!", e);
             }
         }
-        return queue.poll();
+        T polledElement = queue.poll();
+        Thread.sleep(0, 5);
+        this.notify();
+        return polledElement;
     }
 
     public synchronized boolean isEmpty() {
+        this.notify();
         return queue.isEmpty();
     }
 }
