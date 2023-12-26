@@ -2,6 +2,7 @@ package core.basesyntax;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
 
 public class BlockingQueue<T> {
     private Queue<T> queue = new LinkedList<>();
@@ -12,16 +13,24 @@ public class BlockingQueue<T> {
     }
 
     public synchronized void put(T element) throws InterruptedException {
-        // write your code here
+        while (queue.size() == capacity) {
+            this.wait();
+        }
+        queue.add(element);
+        this.notify();
+        ArrayBlockingQueue g;
     }
 
     public synchronized T take() throws InterruptedException {
-        // write your code here
-        return null;
+        while (isEmpty()) {
+            this.wait();
+        }
+        T result = queue.poll();
+        this.notify();
+        return result;
     }
 
     public synchronized boolean isEmpty() {
-        // write your code here
-        return true;
+        return queue.isEmpty();
     }
 }
