@@ -19,6 +19,7 @@ public class BlockingQueue<T> {
                 throw new RuntimeException("We have a problem here boss", e);
             }
         }
+
         notify();
         queue.add(element);
     }
