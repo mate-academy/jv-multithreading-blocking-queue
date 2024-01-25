@@ -1,7 +1,6 @@
 package core.basesyntax;
 
 import java.util.LinkedList;
-import java.util.Objects;
 import java.util.Queue;
 
 public class BlockingQueue<T> {
@@ -20,7 +19,6 @@ public class BlockingQueue<T> {
         queue.add(element);
         notify();
     }
-
 
     public synchronized T take() throws InterruptedException {
         while (queue.isEmpty()) {
