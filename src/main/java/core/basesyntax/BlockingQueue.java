@@ -5,8 +5,7 @@ import java.util.Queue;
 
 public class BlockingQueue<T> {
     private final Queue<T> queue = new LinkedList<>();
-    private volatile int capacity;
-    private volatile int size;
+    private final int capacity;
 
     public BlockingQueue(int capacity) {
         this.capacity = capacity;
@@ -14,11 +13,10 @@ public class BlockingQueue<T> {
 
     public synchronized void put(T element) throws InterruptedException {
         // write your code here
-        while (capacity == size) {
+        while (capacity == queue.size()) {
             this.wait();
         }
         queue.offer(element);
-        size++;
         this.notifyAll();
     }
 
@@ -27,13 +25,13 @@ public class BlockingQueue<T> {
         while (isEmpty()) {
             this.wait();
         }
-        size--;
+        T element = queue.poll();
         this.notifyAll();
-        return queue.poll();
+        return element;
     }
 
     public synchronized boolean isEmpty() {
         // write your code here
-        return size == 0;
+        return queue.isEmpty();
     }
 }
