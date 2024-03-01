@@ -21,8 +21,8 @@ public class BlockingQueue<T> {
             }
         }
         System.out.println("Put after wait");
+        queue.offer(element);
         notify();
-        queue.add(element);
     }
 
     public synchronized T take() throws InterruptedException {
@@ -34,10 +34,9 @@ public class BlockingQueue<T> {
                 throw new InterruptedException("take interrupted");
             }
         }
-        // write your code here
         System.out.println("Take after wait");
         notify();
-        return queue.element();
+        return queue.poll();
     }
 
     public synchronized boolean isEmpty() {
