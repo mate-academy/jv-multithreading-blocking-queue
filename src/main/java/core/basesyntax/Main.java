@@ -11,5 +11,12 @@ public class Main {
 
         producer.start();
         consumer.start();
+
+        try {
+            producer.join();
+            consumer.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
