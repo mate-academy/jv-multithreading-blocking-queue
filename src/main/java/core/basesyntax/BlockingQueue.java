@@ -1,6 +1,5 @@
 package core.basesyntax;
 
-import java.io.File;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -22,15 +21,15 @@ public class BlockingQueue<T> {
     }
 
     public synchronized T take() throws InterruptedException {
-       while (isEmpty()) {
-           this.wait(); // Main thread waits here
-           System.out.println("The take method is waiting");
-       }
-       try {
-           return queue.poll();
-       } finally {
-           this.notifyAll();
-       }
+        while (isEmpty()) {
+            this.wait(); // Main thread waits here
+            System.out.println("The take method is waiting");
+        }
+        try {
+            return queue.poll();
+        } finally {
+            this.notifyAll();
+        }
     }
 
     public synchronized boolean isEmpty() {
