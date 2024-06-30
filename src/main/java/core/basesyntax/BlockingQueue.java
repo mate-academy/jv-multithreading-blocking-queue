@@ -11,7 +11,7 @@ public class BlockingQueue<T> {
         this.capacity = capacity;
     }
 
-    public  synchronized void put(T element) throws InterruptedException {
+    public synchronized void put(T element) throws InterruptedException {
         while (queue.size() == capacity) {
             wait(); // waits till there is free space
         }
