@@ -27,4 +27,9 @@ public class BlockingQueue<T> {
         notifyAll(); // Notify waiting threads that space is available
         return element;
     }
+
+    // Add this method for testing purposes
+    public synchronized boolean isEmpty() {
+        return queue.isEmpty();
+    }
 }
