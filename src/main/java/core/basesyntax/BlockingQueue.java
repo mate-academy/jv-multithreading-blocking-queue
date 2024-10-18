@@ -15,7 +15,7 @@ public class BlockingQueue<T> {
         while (queue.size() == capacity) {
             wait();
         }
-       queue.add(element);
+        queue.add(element);
         notifyAll();
     }
 
@@ -25,7 +25,7 @@ public class BlockingQueue<T> {
         }
         T element = queue.poll();
         notifyAll();
-        return  element;
+        return element;
     }
 
     public synchronized boolean isEmpty() {
