@@ -36,15 +36,6 @@ public class BlockingQueue<T> {
     }
 
     public synchronized boolean isEmpty() {
-//        while (queue.isEmpty()) {
-//            try {
-//                System.out.println("will wait in isEmpty() check");
-//                this.wait();
-//            } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
-//        }
-//        return false;
         return queue.isEmpty();
     }
 }
