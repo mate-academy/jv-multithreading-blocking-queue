@@ -22,12 +22,6 @@ public class BlockingQueue<T> {
     }
 
     public synchronized T take() throws InterruptedException {
-        T removed = queue.remove();
-        this.notify();
-        return removed;
-    }
-
-    public synchronized boolean isEmpty() {
         while (queue.isEmpty()) {
             try {
                 System.out.println("will wait in isEmpty() check");
@@ -36,6 +30,21 @@ public class BlockingQueue<T> {
                 throw new RuntimeException(e);
             }
         }
-        return false;
+        T removed = queue.remove();
+        this.notify();
+        return removed;
+    }
+
+    public synchronized boolean isEmpty() {
+//        while (queue.isEmpty()) {
+//            try {
+//                System.out.println("will wait in isEmpty() check");
+//                this.wait();
+//            } catch (InterruptedException e) {
+//                throw new RuntimeException(e);
+//            }
+//        }
+//        return false;
+        return queue.isEmpty();
     }
 }
