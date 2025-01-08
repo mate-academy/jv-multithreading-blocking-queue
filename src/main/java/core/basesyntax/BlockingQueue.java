@@ -22,19 +22,17 @@ public class BlockingQueue<T> {
     }
 
     public T take() throws InterruptedException {
-            synchronized (queue) {
-                while (queue.isEmpty()) {
-                    queue.wait();
-                }
-                T element = queue.poll();
-                queue.notifyAll();
-                return element;
+        synchronized (queue) {
+            while (queue.isEmpty()) {
+                queue.wait();
             }
+            T element = queue.poll();
+            queue.notifyAll();
+            return element;
+        }
     }
 
-    public boolean isEmpty() {
-        synchronized (queue) {
-            return queue.isEmpty();
-        }
+    public synchronized boolean isEmpty() {
+        return queue.isEmpty();
     }
 }
