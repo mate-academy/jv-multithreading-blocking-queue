@@ -13,19 +13,19 @@ public class BlockingQueue<T> {
     }
 
     public synchronized void put(T element) throws InterruptedException {
-            if (capacity <= queue.size()) {
-                this.wait();
-            }
-            queue.add(element);
-            this.notify();
+        if (capacity <= queue.size()) {
+            this.wait();
+        }
+        queue.add(element);
+        this.notify();
     }
 
     public synchronized T take() throws InterruptedException {
-            if (queue.isEmpty()) {
-                this.wait();
-            }
-            this.notify();
-            return queue.poll();
+        if (queue.isEmpty()) {
+            this.wait();
+        }
+        this.notify();
+        return queue.poll();
     }
 
     public synchronized boolean isEmpty() {
