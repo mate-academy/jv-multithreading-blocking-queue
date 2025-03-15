@@ -11,17 +11,40 @@ public class BlockingQueue<T> {
         this.capacity = capacity;
     }
 
-    public synchronized void put(T element) throws InterruptedException {
-        // write your code here
+    public void put(T element) throws InterruptedException {
+        synchronized (queue) { // Synchronize on the queue object
+            while (queue.size() == capacity) {
+                try {
+                    System.out.println("Before wait put   " + Thread.currentThread().getName());
+                    queue.wait(); // Wait on the queue's intrinsic lock
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            queue.add(element);
+            queue.notifyAll(); // Notify other threads waiting on this lock
+        }
     }
 
-    public synchronized T take() throws InterruptedException {
-        // write your code here
-        return null;
+    public T take() throws InterruptedException {
+        synchronized (queue) { // Synchronize on the queue object
+            while (queue.isEmpty()) {
+                try {
+                    System.out.println("Before wait take");
+                    queue.wait(); // Wait on the queue's intrinsic lock
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            T element = queue.remove();
+            queue.notifyAll(); // Notify other threads waiting on this lock
+            return element;
+        }
     }
 
     public synchronized boolean isEmpty() {
-        // write your code here
-        return true;
+        synchronized (queue) { // Synchronize on the queue object
+            return queue.isEmpty();
+        }
     }
 }
