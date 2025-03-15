@@ -12,7 +12,7 @@ public class BlockingQueue<T> {
     }
 
     public void put(T element) throws InterruptedException {
-        synchronized (queue) { // Synchronize on the queue object
+        synchronized (queue) {
             while (queue.size() == capacity) {
                 try {
                     System.out.println("Before wait put   " + Thread.currentThread().getName());
