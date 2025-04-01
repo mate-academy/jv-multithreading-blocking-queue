@@ -13,11 +13,11 @@ public class BlockingQueue<T> {
 
     public synchronized void put(T element) throws InterruptedException {
         // write your code here
-        while (queue.size() >= capacity) {
+        while (queue.size() == capacity) {
             wait();
         }
         queue.add(element);
-        notifyAll();
+        notify();
     }
 
     public synchronized T take() throws InterruptedException {
@@ -26,7 +26,7 @@ public class BlockingQueue<T> {
             wait();
         }
         T item = queue.poll();
-        notifyAll(); // Notify any waiting producers
+        notify();
         return item;
     }
 
