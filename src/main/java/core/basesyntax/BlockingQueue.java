@@ -13,7 +13,6 @@ public class BlockingQueue<T> {
 
     public synchronized void put(T element) throws InterruptedException {
         while (queue.size() == capacity) {
-            this.wait();
             wait();
         }
         queue.add(element);
