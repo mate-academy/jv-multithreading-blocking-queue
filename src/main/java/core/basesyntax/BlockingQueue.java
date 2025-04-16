@@ -21,7 +21,6 @@ public class BlockingQueue<T> {
     }
 
     public synchronized boolean isEmpty() {
-        // write your code here
-        return true;
+        return queue.isEmpty();
     }
 }
