@@ -4,24 +4,61 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class BlockingQueue<T> {
-    private Queue<T> queue = new LinkedList<>();
-    private int capacity;
+    private final int capacity;
+    private final Queue<T> queue;
 
     public BlockingQueue(int capacity) {
         this.capacity = capacity;
+        this.queue = new LinkedList<>();
     }
 
     public synchronized void put(T element) throws InterruptedException {
-        // write your code here
+        while (queue.size() == capacity) {
+            wait();
+        }
+        queue.add(element);
+        notifyAll();
     }
 
     public synchronized T take() throws InterruptedException {
-        // write your code here
-        return null;
+        while (queue.isEmpty()) {
+            wait();
+        }
+        T element = queue.poll();
+        notifyAll();
+        return element;
     }
 
     public synchronized boolean isEmpty() {
-        // write your code here
-        return true;
+        return queue.isEmpty();
+    }
+
+    public static void main(String[] args) {
+        BlockingQueue<Integer> queue = new BlockingQueue<>(5);
+
+        Thread producer = new Thread(() -> {
+            for (int i = 1; i <= 10; i++) {
+                try {
+                    System.out.println("Producing: " + i);
+                    queue.put(i);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        });
+
+        Thread consumer = new Thread(() -> {
+            for (int i = 1; i <= 10; i++) {
+                try {
+                    int item = queue.take();
+                    System.out.println("Consuming: " + item);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        });
+
+        producer.start();
+        consumer.start();
     }
 }
