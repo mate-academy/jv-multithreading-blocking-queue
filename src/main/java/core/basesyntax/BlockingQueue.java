@@ -12,16 +12,30 @@ public class BlockingQueue<T> {
     }
 
     public synchronized void put(T element) throws InterruptedException {
-        // write your code here
+        while (queue.size() == capacity) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException("InterruptedException in method put");
+            }
+        }
+        queue.add(element); // when there is free space in the queue -> add
+        notify(); // notify consumer thread if it is in waiting mode
     }
 
     public synchronized T take() throws InterruptedException {
-        // write your code here
-        return null;
+        while (this.isEmpty()) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException("InterruptedException in method take");
+            }
+        }
+        notify();
+        return queue.poll();
     }
 
     public synchronized boolean isEmpty() {
-        // write your code here
-        return true;
+        return queue.isEmpty();
     }
 }
