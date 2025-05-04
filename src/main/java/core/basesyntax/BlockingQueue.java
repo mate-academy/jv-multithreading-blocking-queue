@@ -12,16 +12,30 @@ public class BlockingQueue<T> {
     }
 
     public synchronized void put(T element) throws InterruptedException {
-        // write your code here
+        boolean lock = true;
+        while (lock) {
+            if (queue.size() < capacity) {
+                queue.offer(element);
+                lock = false;
+                notify();
+            } else {
+                wait();
+            }
+        }
     }
 
     public synchronized T take() throws InterruptedException {
-        // write your code here
-        return null;
+        while (true) {
+            if (queue.isEmpty()) {
+                wait();
+            } else {
+                notify();
+                return queue.poll();
+            }
+        }
     }
 
     public synchronized boolean isEmpty() {
-        // write your code here
-        return true;
+        return queue.isEmpty();
     }
 }
