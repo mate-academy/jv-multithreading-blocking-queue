@@ -11,7 +11,7 @@ public class Consumer implements Runnable {
 
     @Override
     public void run() {
-        while (!blockingQueue.isEmpty()) {
+        while (true) {
             try {
                 System.out.println("Took value " + blockingQueue.take());
             } catch (InterruptedException e) {

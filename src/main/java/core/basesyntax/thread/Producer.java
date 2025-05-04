@@ -13,6 +13,7 @@ public class Producer implements Runnable {
     public void run() {
         for (int i = 0; i < 50; i++) {
             try {
+                System.out.println("I am putting element");
                 blockingQueue.put(i);
             } catch (InterruptedException e) {
                 throw new RuntimeException("Producer was interrupted!", e);
