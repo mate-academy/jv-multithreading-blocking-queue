@@ -11,11 +11,13 @@ public class Producer implements Runnable {
 
     @Override
     public void run() {
-        for (int i = 0; i < 50; i++) {
-            try {
-                blockingQueue.put(i);
-            } catch (InterruptedException e) {
-                throw new RuntimeException("Producer was interrupted!", e);
+        while (blockingQueue.isEmpty()) {
+            for (int i = 0; i < 50; i++) {
+                try {
+                    blockingQueue.put(i);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException("Producer was interrupted!", e);
+                }
             }
         }
     }
