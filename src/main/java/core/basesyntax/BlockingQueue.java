@@ -25,7 +25,7 @@ public class BlockingQueue<T> {
         while (queue.isEmpty()) {
             wait();
         }
-        T element = queue.peek();
+        T element = queue.poll();
         notify();
         return element;
     }
