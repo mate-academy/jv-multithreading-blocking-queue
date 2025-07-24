@@ -17,4 +17,4 @@ due to a problem known as spurious wake-ups. A waiting thread can sometimes be r
 `notify()` being called. 
 Putting the check in a `while` loop will ensure that if a spurious wake-up occurs, 
 the condition will be re-checked, 
-and the thread will call `wait()` again.
+and the thread will call `wait()` again..
