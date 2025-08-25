@@ -20,18 +20,15 @@ public class BlockingQueue<T> {
     }
 
     public synchronized T take() throws InterruptedException {
-        // write your code here
         while (queue.isEmpty()) {
             wait();
         }
         T element = queue.poll();
         notifyAll();
         return element;
-
     }
 
     public synchronized boolean isEmpty() {
-        // write your code here
         return queue.isEmpty();
     }
 }
