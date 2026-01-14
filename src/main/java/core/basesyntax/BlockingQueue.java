@@ -4,6 +4,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class BlockingQueue<T> {
+    private static final Object lock = new Object();
+
     private Queue<T> queue = new LinkedList<>();
     private int capacity;
 
@@ -11,17 +13,33 @@ public class BlockingQueue<T> {
         this.capacity = capacity;
     }
 
-    public synchronized void put(T element) throws InterruptedException {
-        // write your code here
+    public void put(T element) throws InterruptedException {
+        synchronized (lock) {
+            while (queue.size() == capacity) {
+                lock.wait();
+            }
+        }
+
+        synchronized (lock) {
+            queue.add(element);
+            lock.notify();
+        }
     }
 
-    public synchronized T take() throws InterruptedException {
-        // write your code here
-        return null;
+    public T take() throws InterruptedException {
+        synchronized (lock) {
+            while (isEmpty()) {
+                lock.wait();
+            }
+        }
+
+        synchronized (lock) {
+            lock.notify();
+            return queue.poll();
+        }
     }
 
-    public synchronized boolean isEmpty() {
-        // write your code here
-        return true;
+    public boolean isEmpty() {
+        return queue.isEmpty();
     }
 }
