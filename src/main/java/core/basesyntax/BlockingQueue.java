@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class BlockingQueue<T> {
-    private static final Object lock = new Object();
+    private final Object lock = new Object();
 
     private Queue<T> queue = new LinkedList<>();
     private int capacity;
@@ -18,9 +18,7 @@ public class BlockingQueue<T> {
             while (queue.size() == capacity) {
                 lock.wait();
             }
-        }
 
-        synchronized (lock) {
             queue.add(element);
             lock.notify();
         }
@@ -31,15 +29,14 @@ public class BlockingQueue<T> {
             while (isEmpty()) {
                 lock.wait();
             }
-        }
 
-        synchronized (lock) {
+            T element = queue.poll();
             lock.notify();
-            return queue.poll();
+            return element;
         }
     }
 
-    public boolean isEmpty() {
+    public synchronized boolean isEmpty() {
         return queue.isEmpty();
     }
 }
