@@ -1,7 +1,5 @@
 package core.basesyntax;
 
-import core.basesyntax.thread.Producer;
-
 import java.util.LinkedList;
 import java.util.Queue;
 
