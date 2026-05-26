@@ -16,7 +16,7 @@ public class BlockingQueue<T> {
             wait();
         }
 
-        queue.add(value);
+        queue.offer(value);
         notifyAll();
     }
 
@@ -28,5 +28,9 @@ public class BlockingQueue<T> {
         T value = queue.poll();
         notifyAll();
         return value;
+    }
+
+    public synchronized boolean isEmpty() {
+        return queue.isEmpty();
     }
 }
