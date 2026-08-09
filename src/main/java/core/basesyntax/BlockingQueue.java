@@ -12,16 +12,27 @@ public class BlockingQueue<T> {
     }
 
     public synchronized void put(T element) throws InterruptedException {
-        // write your code here
+        while (queue.size() >= capacity) {
+            System.out.println("Try to put but queue are full");
+            wait();
+        }
+        queue.add(element);
+        notify();
+        System.out.println("Put element in queue");
     }
 
     public synchronized T take() throws InterruptedException {
-        // write your code here
-        return null;
+        while (queue.isEmpty()) {
+            System.out.println("Try to take but queue are empty");
+            wait();
+        }
+        T element = queue.poll();
+        notify();
+        System.out.println("Take element");
+        return element;
     }
 
     public synchronized boolean isEmpty() {
-        // write your code here
-        return true;
+        return queue.isEmpty();
     }
 }
