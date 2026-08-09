@@ -15,6 +15,7 @@ public class Consumer implements Runnable {
             try {
                 System.out.println("Took value " + blockingQueue.take());
             } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
                 throw new RuntimeException("Consumer was interrupted!", e);
             }
         }

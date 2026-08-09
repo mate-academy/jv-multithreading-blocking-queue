@@ -15,6 +15,7 @@ public class Producer implements Runnable {
             try {
                 blockingQueue.put(i);
             } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
                 throw new RuntimeException("Producer was interrupted!", e);
             }
         }
