@@ -7,21 +7,36 @@ public class BlockingQueue<T> {
     private Queue<T> queue = new LinkedList<>();
     private int capacity;
 
+    private Object lock = new Object();
+
     public BlockingQueue(int capacity) {
         this.capacity = capacity;
     }
 
-    public synchronized void put(T element) throws InterruptedException {
-        // write your code here
+    public void put(T element) throws InterruptedException {
+        synchronized (lock) {
+            while (queue.size() == capacity) {
+                lock.wait();
+            }
+            queue.add(element);
+            lock.notifyAll();
+        }
     }
 
-    public synchronized T take() throws InterruptedException {
-        // write your code here
-        return null;
+    public T take() throws InterruptedException {
+        synchronized (lock) {
+            while (queue.isEmpty()) {
+                lock.wait();
+            }
+            T item = queue.poll();
+            lock.notifyAll();
+            return item;
+        }
     }
 
-    public synchronized boolean isEmpty() {
-        // write your code here
-        return true;
+    public boolean isEmpty() {
+        synchronized (lock) {
+            return queue.isEmpty();
+        }
     }
 }
