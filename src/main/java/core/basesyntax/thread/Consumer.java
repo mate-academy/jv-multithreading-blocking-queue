@@ -18,5 +18,8 @@ public class Consumer implements Runnable {
                 throw new RuntimeException("Consumer was interrupted!", e);
             }
         }
+        synchronized (blockingQueue) {
+            blockingQueue.notifyAll();
+        }
     }
 }
