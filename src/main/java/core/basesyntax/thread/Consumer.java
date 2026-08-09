@@ -10,7 +10,7 @@ public class Consumer implements Runnable {
     }
 
     @Override
-    public void run() {
+    public synchronized void run() {
         while (!blockingQueue.isEmpty()) {
             try {
                 System.out.println("Took value " + blockingQueue.take());
