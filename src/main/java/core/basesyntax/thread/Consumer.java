@@ -1,9 +1,13 @@
 package core.basesyntax.thread;
 
 import core.basesyntax.BlockingQueue;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Consumer implements Runnable {
-    private BlockingQueue<Integer> blockingQueue;
+
+    private static final Logger logger = LogManager.getLogger(Consumer.class);
+    private final BlockingQueue<Integer> blockingQueue;
 
     public Consumer(BlockingQueue<Integer> blockingQueue) {
         this.blockingQueue = blockingQueue;
@@ -11,11 +15,14 @@ public class Consumer implements Runnable {
 
     @Override
     public void run() {
-        while (!blockingQueue.isEmpty()) {
+        while (!Thread.currentThread().isInterrupted()) {
             try {
-                System.out.println("Took value " + blockingQueue.take());
+                Integer value = blockingQueue.take();
+                System.out.println("Took value " + value);
             } catch (InterruptedException e) {
-                throw new RuntimeException("Consumer was interrupted!", e);
+                Thread.currentThread().interrupt();
+                logger.warn("Thread was interrupted while taking from queue", e);
+                break;
             }
         }
     }

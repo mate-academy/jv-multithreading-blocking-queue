@@ -1,9 +1,13 @@
 package core.basesyntax.thread;
 
 import core.basesyntax.BlockingQueue;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Producer implements Runnable {
-    private BlockingQueue<Integer> blockingQueue;
+
+    private static final Logger logger = LogManager.getLogger(Consumer.class);
+    private final BlockingQueue<Integer> blockingQueue;
 
     public Producer(BlockingQueue<Integer> blockingQueue) {
         this.blockingQueue = blockingQueue;
@@ -15,7 +19,9 @@ public class Producer implements Runnable {
             try {
                 blockingQueue.put(i);
             } catch (InterruptedException e) {
-                throw new RuntimeException("Producer was interrupted!", e);
+                Thread.currentThread().interrupt();
+                logger.warn("Producer interrupted while putting value {}", i, e);
+                break;
             }
         }
     }
